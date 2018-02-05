@@ -4,6 +4,8 @@ Ball ball;
 PImage pong;
 int rectSize = 100;
 
+// \n will enter the text 
+
 class Ball {
   float x;
   float y;
@@ -19,21 +21,33 @@ class Ball {
     x = width/2;
     y = height/2;
     speedX = random(-5, 5);
-    speedY = random(-5, 5);
+    speedY = random(-5, 5) + 3;
   }
 
   void Move() {
-
+    println(paddle2.h) ;
     if (y > height - (ballSize/2) || y < (ballSize/2)) {
+      println("ran") ;
       speedY = -speedY;
-    } else if ( speedX - r < paddle2.w + 10 && speedY <= paddle2.y + paddle2.h && speedY >= paddle2.y){ //THIS SHLD WORK
-      speedX = -speedX;
+    } else if (x+r > paddle2.x && x+r < paddle2.x + 20 && y+ballSize <= paddle2.y +200 && y >= paddle2.y) {
+      speedX = -speedX ;
       speedY = -speedY;
-      //right
-    } else if (speedX + r > 570 - paddle1.w && speedY <= paddle1.y + paddle1.h && speedY >= paddle1.y) {
-      speedX = -speedX;
-      speedY = -speedY;
+    } else if (x - r < paddle1.x  &&  x-r > paddle1.x - 20 && y+ballSize <= paddle1.y +200 && y >= paddle1.y) {
+      speedX = -speedX ;
+      speedY = -speedY ;
     }
+    //if ( x - r < paddle2.x + 10 && x - r > paddle2.x && y <= paddle2.y + paddle2.h && y >= paddle2.y) { 
+    //  println("this ran") ;
+    //  speedX = -speedX;
+    //  speedY = -speedY;
+    //  //right
+    //} 
+    //if (x + r > 570 - paddle1.x  && x - r > paddle1.x && y <= paddle1.y + paddle1.h && y >= paddle1.y) {
+    //  speedX = -speedX;
+    //  speedY = -speedY;
+    //   println("this ran2") ;
+    //}
+
     //LOSE CHECK
     if (x < 0) {
       score2++;
@@ -45,13 +59,13 @@ class Ball {
     x += speedX;
     y += speedY;
     fill(255);
-    //ellipse(x,y,ballSize,ballSize);
-    image(pong, x, y, ballSize, ballSize);
+    ellipse(x, y, ballSize/2, ballSize/2);
+    //image(pong, x, y, ballSize, ballSize);
   }
 
   void Reset() {
-    speedY = random(-6,6);
-    speedX = random(-6,6);
+    speedX = random(-5, 5);
+    speedY = random(-5, 5) + 3;
     x = width/2;
     y = height/2;
   }
@@ -95,7 +109,7 @@ void setup() {
   paddle1 = new Paddle(10);
   paddle2 = new Paddle(570);
   ball = new Ball();
-  pong = loadImage("me.png");
+  //pong = loadImage("me.png");
 }
 
 void keyPressed() {
@@ -130,6 +144,7 @@ void keyReleased() {
     paddle2.down = false;
   }
 }
+
 void draw () {
   line();
   paddle1.Move();
@@ -139,7 +154,7 @@ void draw () {
 }
 
 
-
+//Draws middle line
 void line() {
   background(0);
   for (int i = 0; i < height; i+=60)
